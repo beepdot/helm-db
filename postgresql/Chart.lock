@@ -1,0 +1,6 @@
+dependencies:
+- name: common
+  repository: https://keshavprasadms.github.io/helm-common/
+  version: 0.1.0
+digest: sha256:a9ff243a5033480c701f3e6df35b88522abdc6c4e7b5c3dee1fdb6409e9948e1
+generated: "2022-07-14T14:00:39.944481+05:30"

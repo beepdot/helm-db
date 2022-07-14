@@ -15,4 +15,5 @@ keywords:
   - replication
   - cluster
 name: postgresql
-version: 0.1.0
+version: 14.0.0
+
