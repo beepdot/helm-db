@@ -446,7 +446,9 @@ primary:
   labels: {}
   ## @param primary.annotations Annotations for PostgreSQL primary pods
   ##
-  annotations: {}
+  annotations:
+    helm.sh/hook: post-install, pre-upgrade
+    helm.sh/hook-weight: "0"
   ## @param primary.podLabels Map of labels to add to the pods (postgresql primary)
   ##
   podLabels: {}
