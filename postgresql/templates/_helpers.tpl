@@ -210,7 +210,7 @@ Get the readiness probe command
 {{- $customUser := include "postgresql.username" . }}
 - |
 {{- if (include "postgresql.database" .) }}
-  exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }} -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
+  exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }}" -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
 {{- end }}
 {{- if contains "bitnami/" .Values.image.repository }}
   [ -f /opt/bitnami/postgresql/tmp/.initialized ] || [ -f /bitnami/postgresql/.initialized ]
