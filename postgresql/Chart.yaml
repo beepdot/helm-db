@@ -1,0 +1,18 @@
+annotations:
+  category: Database
+apiVersion: v2
+appVersion: "14.0.0"
+dependencies:
+  - name: common
+    repository: https://keshavprasadms.github.io/helm-common/
+    version: 0.1.x
+description: PostgreSQL (Postgres) is an open source object-relational database known for reliability and data integrity. ACID-compliant, it supports foreign keys, joins, views, triggers and stored procedures.
+keywords:
+  - postgresql
+  - postgres
+  - database
+  - sql
+  - replication
+  - cluster
+name: postgresql
+version: 0.1.0
