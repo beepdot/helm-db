@@ -313,9 +313,9 @@ spec:
                 - /bin/sh
                 - -c
                 {{- if (include "postgresql.database" .) }}
-                - exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }} {{- if and .Values.tls.enabled .Values.tls.certCAFilename }} sslcert={{ include "postgresql.tlsCert" . }} sslkey={{ include "postgresql.tlsCertKey" . }}{{- end }}" -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
+                - exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }}" -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
                 {{- else }}
-                - exec pg_isready -U {{ default "postgres" $customUser | quote }} {{- if and .Values.tls.enabled .Values.tls.certCAFilename }} -d "sslcert={{ include "postgresql.tlsCert" . }} sslkey={{ include "postgresql.tlsCertKey" . }}"{{- end }} -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
+                - exec pg_isready -U {{ default "postgres" $customUser | quote }} -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
                 {{- end }}
           {{- else if .Values.primary.customStartupProbe }}
           startupProbe: {{- include "common.tplvalues.render" (dict "value" .Values.primary.customStartupProbe "context" $) | nindent 12 }}
@@ -327,7 +327,7 @@ spec:
                 - /bin/sh
                 - -c
                 {{- if (include "postgresql.database" .) }}
-                - exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }} {{- if and .Values.tls.enabled .Values.tls.certCAFilename }} sslcert={{ include "postgresql.tlsCert" . }} sslkey={{ include "postgresql.tlsCertKey" . }}{{- end }}" -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
+                - exec pg_isready -U {{ default "postgres" $customUser | quote }} -d "dbname={{ include "postgresql.database" . }} -h 127.0.0.1 -p {{ .Values.containerPorts.postgresql }}
                 {{- end }}
           {{- else if .Values.primary.customLivenessProbe }}
           livenessProbe: {{- include "common.tplvalues.render" (dict "value" .Values.primary.customLivenessProbe "context" $) | nindent 12 }}
@@ -351,22 +351,6 @@ spec:
           lifecycle: {{- include "common.tplvalues.render" (dict "value" .Values.primary.lifecycleHooks "context" $) | nindent 12 }}
           {{- end }}
           volumeMounts:
-            {{- if or .Values.primary.initdb.scriptsConfigMap .Values.primary.initdb.scripts }}
-            - name: custom-init-scripts
-              mountPath: /docker-entrypoint-initdb.d/
-            {{- end }}
-            {{- if .Values.primary.initdb.scriptsSecret }}
-            - name: custom-init-scripts-secret
-              mountPath: /docker-entrypoint-initdb.d/secret
-            {{- end }}
-            {{- if or .Values.primary.extendedConfiguration .Values.primary.existingExtendedConfigmap }}
-            - name: postgresql-extended-config
-              mountPath: /bitnami/postgresql/conf/conf.d/
-            {{- end }}
-            {{- if .Values.auth.usePasswordFiles }}
-            - name: postgresql-password
-              mountPath: /opt/bitnami/postgresql/secrets/
-            {{- end }}
             {{- if .Values.shmVolume.enabled }}
             - name: dshm
               mountPath: /dev/shm
@@ -393,26 +377,6 @@ spec:
         - name: postgresql-config
           configMap:
             name: {{ include "postgresql.primary.configmapName" . }}
-        {{- end }}
-        {{- if or .Values.primary.extendedConfiguration .Values.primary.existingExtendedConfigmap }}
-        - name: postgresql-extended-config
-          configMap:
-            name: {{ include "postgresql.primary.extendedConfigmapName" . }}
-        {{- end }}
-        {{- if .Values.auth.usePasswordFiles }}
-        - name: postgresql-password
-          secret:
-            secretName: {{ include "postgresql.secretName" . }}
-        {{- end }}
-        {{- if or .Values.primary.initdb.scriptsConfigMap .Values.primary.initdb.scripts }}
-        - name: custom-init-scripts
-          configMap:
-            name: {{ include "postgresql.initdb.scriptsCM" . }}
-        {{- end }}
-        {{- if .Values.primary.initdb.scriptsSecret }}
-        - name: custom-init-scripts-secret
-          secret:
-            secretName: {{ tpl .Values.primary.initdb.scriptsSecret $ }}
         {{- end }}
         {{- if .Values.primary.extraVolumes }}
         {{- include "common.tplvalues.render" ( dict "value" .Values.primary.extraVolumes "context" $ ) | nindent 8 }}

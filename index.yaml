@@ -5,7 +5,7 @@ entries:
       category: Database
     apiVersion: v2
     appVersion: 11.0.0
-    created: "2022-07-15T01:20:46.420002+05:30"
+    created: "2022-07-15T01:45:03.278773+05:30"
     dependencies:
     - name: common
       repository: https://keshavprasadms.github.io/helm-common/
@@ -13,7 +13,7 @@ entries:
     description: PostgreSQL (Postgres) is an open source object-relational database
       known for reliability and data integrity. ACID-compliant, it supports foreign
       keys, joins, views, triggers and stored procedures.
-    digest: 83abd251ac4c9009eb16d74d0186dbd5f23fd5bf710ee3ac6ee76fd0a5dc9b54
+    digest: 831f2180a2e01f2f89ff875177472aa323ac030792a5c696506017377fb952ff
     keywords:
     - postgresql
     - postgres
@@ -25,4 +25,4 @@ entries:
     urls:
     - https://keshavprasadms.github.io/helm-db/postgresql-11.0.0.tgz
     version: 11.0.0
-generated: "2022-07-15T01:20:46.417873+05:30"
+generated: "2022-07-15T01:45:03.276632+05:30"
