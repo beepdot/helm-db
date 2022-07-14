@@ -6,7 +6,7 @@
       "type": "string",
       "title": "PostgreSQL architecture",
       "form": true,
-      "description": "Allowed values: `standalone` or `replication`"
+      "description": "Allowed values: `standalone`"
     },
     "auth": {
       "type": "object",
@@ -110,27 +110,6 @@
         }
       }
     },
-    "replication": {
-      "type": "object",
-      "form": true,
-      "title": "Replication Details",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "title": "Enable Replication",
-          "form": true
-        },
-        "readReplicas": {
-          "type": "integer",
-          "title": "read Replicas",
-          "form": true,
-          "hidden": {
-            "value": "standalone",
-            "path": "architecture"
-          }
-        }
-      }
-    },
     "volumePermissions": {
       "type": "object",
       "properties": {
@@ -139,16 +118,6 @@
           "form": true,
           "title": "Enable Init Containers",
           "description": "Change the owner of the persist volume mountpoint to RunAsUser:fsGroup"
-        }
-      }
-    },
-    "metrics": {
-      "type": "object",
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "title": "Configure metrics exporter",
-          "form": true
         }
       }
     }
