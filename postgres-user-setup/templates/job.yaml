@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "postgres-user-setup.fullname" . }}
+  labels:
+    {{- include "postgres-user-setup.labels" . | nindent 4 }}
+  annotations:
+    {{ .Values.annotations | toYaml }}
+spec:
+  template:
+    metadata:
+      labels:
+        {{- include "postgres-user-setup.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: PG_USER
+            value: {{ .Values.postgresUser }}
+      restartPolicy: {{ .Values.restartPolicy }}
