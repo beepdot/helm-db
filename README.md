@@ -1,2 +1,2 @@
-### DB repo containing the following charts
+### DB module repo containing the following charts:
 - Postgreql
